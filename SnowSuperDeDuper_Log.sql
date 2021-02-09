@@ -1,7 +1,7 @@
 USE [SnowLicenseManager]
 GO
 
-CREATE TABLE [dbo].[BSKYB_SnowSuperDeDuper_Log](
+CREATE TABLE [dbo].[SnowSuperDeDuper_Log](
 	[ComputerID] [int] NOT NULL,
 	[ClientID] [int] NOT NULL,
 	[HostName] [nvarchar](100) NOT NULL,

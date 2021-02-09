@@ -5,12 +5,12 @@ CREATE PROCEDURE [dbo].[SnowSuperDeDuper]
 )
 AS
 /*********************************************************************************************************
-Name :		SnowSuperDeDuper
+Name :          SnowSuperDeDuper
 Summary	:	Identifies duplicates in Snow License Manager (tblComputer) and removes all the oldest records
-            leaving the most recent. Links to SnowInventory to removed related records from there.
-Notes	:   - Logs deletions to table dbo.SnowSuperDeDuper_Log
-            - Optional 'processing hours', set paramters @ProcessingHourStart and @ProcessingHourEnd
-              to limit when deletion will be allowed.
+                leaving the most recent. Links to SnowInventory to removed related records from there.
+Notes	:       - Logs deletions to table dbo.SnowSuperDeDuper_Log
+                - Optional 'processing hours', set parameters @ProcessingHourStart and @ProcessingHourEnd
+                to limit when deletion will be allowed.
 *********************************************************************************************************/
 BEGIN
 
@@ -21,7 +21,7 @@ BEGIN
     DECLARE @ClientXMLDelete NVARCHAR(100)
     DECLARE @HostName NVARCHAR(100)
     DECLARE @LastScanDate DATETIME
-	  DECLARE @ClientVersion NVARCHAR(256)
+    DECLARE @ClientVersion NVARCHAR(256)
     DECLARE @ClientConfigurationName NVARCHAR(100)
     DECLARE @ScanIdentifier NVARCHAR(100)
     DECLARE @BiosSerialNumber NVARCHAR(100)
@@ -50,7 +50,7 @@ BEGIN
         WHERE   c2.rnk > 1
         ORDER  BY c.Hostname ASC, c.LastScanDate DESC
 
-    /* Loop round results, deleting each on from SnowLicenseManager and SnowInventory */
+    /* Loop round results, deleting each one from SnowLicenseManager and SnowInventory */
     OPEN curDataToDelete;
     FETCH NEXT FROM curDataToDelete INTO @ComputerID, @ClientID, @ClientXMLDelete, @HostName, @LastScanDate, @ClientVersion, @ClientConfigurationName, @ScanIdentifier, @BiosSerialNumber, @Model, @DeletionRank
     WHILE (@@FETCH_STATUS = 0 AND DATEPART(HOUR, GETDATE()) BETWEEN @ProcessingHourStart AND @ProcessingHourEnd)
